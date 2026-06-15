@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 import { existsSync } from "node:fs";
+import { mkdir } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
+const bridgeRepo = "https://github.com/Stormycry-cryp/codexapp-wechat-bridge.git";
 const command = process.argv[2] ?? "help";
 const options = parseOptions(process.argv.slice(3));
 const skillDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -62,7 +64,11 @@ if (command === "status") {
 
 async function ensureBridge() {
   if (existsSync(resolve(bridgeDir, "package.json"))) return;
-  throw new Error(`Missing bundled bridge project: ${bridgeDir}`);
+  if (options.bridgeDir) {
+    throw new Error(`External bridge project is missing package.json: ${bridgeDir}`);
+  }
+  await mkdir(dirname(bridgeDir), { recursive: true });
+  run("git", ["clone", bridgeRepo, bridgeDir]);
 }
 
 async function prepareBridge() {
@@ -85,7 +91,6 @@ function readStatus() {
 
 function run(bin, args, opts = {}) {
   console.log(formatCommand([bin, ...args]));
-  if (options.dryRun && bin !== "node") return;
   const result = spawnSync(bin, args, { stdio: "inherit", ...opts });
   if (result.status !== 0) {
     throw new Error(`Command failed: ${formatCommand([bin, ...args])}`);
