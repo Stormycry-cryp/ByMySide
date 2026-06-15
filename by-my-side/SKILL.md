@@ -13,7 +13,7 @@ By My Side connects personal WeChat messages to local Codex through the bundled 
 - Never claim login is complete until `codex-wechat-bridge status` reports `hasWechatToken: true`.
 - WeChat authorization requires the user to scan and confirm. Do not imply the skill can bypass that.
 - Use the bundled bridge project's own CLI and service script. Do not hand-roll LaunchAgent or Task Scheduler files in the skill.
-- If the bundled bridge files are missing or incomplete, recover them by pulling `Stormycry-cryp/codexapp-wechat-bridge` from GitHub into `vendor/codex-wechat-bridge`, then continue. Do not substitute a similar bridge.
+- If the bundled bridge files are missing or incomplete, recover them by pulling `Stormycry-cryp/ByMySide` from GitHub, then continue. Do not substitute a similar bridge.
 - If iLink token setup fails, say so plainly. There is no enterprise WeChat fallback in this bridge.
 
 ## Quick Path
@@ -29,7 +29,7 @@ Use the current working directory as `--workspace` only when the user did not na
 The command:
 
 1. Uses the bundled `vendor/codex-wechat-bridge` project unless `--bridge-dir` explicitly points to an external checkout.
-2. If bundled bridge files are missing, pulls `Stormycry-cryp/codexapp-wechat-bridge` from GitHub into the vendor directory.
+2. If bundled bridge files are missing, pulls `Stormycry-cryp/ByMySide` from GitHub and restores the bundled bridge files from that complete repository.
 3. Runs `npm install` when `node_modules/` is missing.
 4. Runs `npm run build`.
 5. Checks bridge status.

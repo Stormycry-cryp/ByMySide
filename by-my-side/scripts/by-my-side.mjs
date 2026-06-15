@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import { existsSync } from "node:fs";
-import { mkdir } from "node:fs/promises";
+import { cp, mkdir, rm } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
-const bridgeRepo = "https://github.com/Stormycry-cryp/codexapp-wechat-bridge.git";
+const skillRepo = "https://github.com/Stormycry-cryp/ByMySide.git";
 const command = process.argv[2] ?? "help";
 const options = parseOptions(process.argv.slice(3));
 const skillDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -68,7 +68,16 @@ async function ensureBridge() {
     throw new Error(`External bridge project is missing package.json: ${bridgeDir}`);
   }
   await mkdir(dirname(bridgeDir), { recursive: true });
-  run("git", ["clone", bridgeRepo, bridgeDir]);
+  const tempDir = resolve(dirname(bridgeDir), ".by-my-side-recovery");
+  await rm(tempDir, { recursive: true, force: true });
+  run("git", ["clone", skillRepo, tempDir]);
+  const recoveredBridgeDir = resolve(tempDir, "by-my-side", "vendor", "codex-wechat-bridge");
+  if (!existsSync(resolve(recoveredBridgeDir, "package.json"))) {
+    throw new Error(`Recovery clone did not contain bundled bridge files: ${recoveredBridgeDir}`);
+  }
+  await rm(bridgeDir, { recursive: true, force: true });
+  await cp(recoveredBridgeDir, bridgeDir, { recursive: true });
+  await rm(tempDir, { recursive: true, force: true });
 }
 
 async function prepareBridge() {
