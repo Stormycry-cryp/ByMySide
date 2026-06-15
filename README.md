@@ -17,7 +17,7 @@
 
 我自己用来把 Codex 接到微信的一套 Skill。
 
-它不是另一个聊天机器人平台，也不负责托管云服务。它做的事情很窄：让 Agent 帮你把本地 `codex-wechat-bridge` 准备好，带你扫个人微信 iLink 登录二维码，然后把 bridge 注册成登录后自动运行的本地后台服务。
+它不是另一个聊天机器人平台，也不负责托管云服务。它做的事情很窄：Skill 自带 `codex-wechat-bridge` 源码，让 Agent 直接构建、带你扫个人微信 iLink 登录二维码，然后把 bridge 注册成登录后自动运行的本地后台服务。
 
 你可以直接对 Agent 说：
 
@@ -27,7 +27,7 @@
 
 Agent 应该会做这些事：
 
-1. 找到或克隆 `codex-wechat-bridge`。
+1. 使用 Skill 内置的 `codex-wechat-bridge`。
 2. 安装依赖并构建。
 3. 如果还没绑定微信，就打印二维码并教你扫码。
 4. 扫码成功后注册持久化后台服务。
@@ -48,16 +48,16 @@ Agent 应该会做这些事：
 - build 后要重启后台服务，否则运行的还是旧 `dist`。
 
 By My Side 的思路很简单：  
-**让 Skill 负责连接流程，让 `codex-wechat-bridge` 项目负责真正的桥接和持久化运行。**
+**让 Skill 负责连接流程，让内置 `codex-wechat-bridge` 项目负责真正的桥接和持久化运行。**
 
-它会调用桥项目自己的 CLI：
+它会调用内置桥项目自己的 CLI：
 
 - `node dist/cli.js setup`
 - `node dist/cli.js status`
 - `node scripts/service.mjs install`
 - `node scripts/service.mjs status`
 
-所以持久化启动逻辑在项目内，不藏在 Skill 里。
+所以持久化启动逻辑在内置桥项目内，不藏在 Skill 脚本里。
 
 ---
 
@@ -166,7 +166,7 @@ node <by-my-side-skill-folder>/scripts/by-my-side.mjs install-service --workspac
 node <by-my-side-skill-folder>/scripts/by-my-side.mjs status --workspace /absolute/path/to/workspace
 ```
 
-如果你的 bridge 不在默认位置，可以显式传入：
+默认会使用 Skill 内置的 bridge。如果你要改用外部 checkout，可以显式传入：
 
 ```bash
 node <by-my-side-skill-folder>/scripts/by-my-side.mjs connect \

@@ -1,0 +1,23 @@
+{
+  "name": "codex-wechat-bridge",
+  "version": "0.2.11",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "codex-wechat-bridge": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsx src/cli.ts",
+    "service": "node scripts/service.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

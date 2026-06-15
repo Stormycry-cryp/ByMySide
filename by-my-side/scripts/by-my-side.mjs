@@ -1,16 +1,14 @@
 #!/usr/bin/env node
 import { existsSync } from "node:fs";
-import { mkdir } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
-const bridgeRepo = "https://github.com/Stormycry-cryp/codexapp-wechat-bridge.git";
-const defaultBridgeDir = resolve(homedir(), "Documents", "codex-wechat-bridge");
 const command = process.argv[2] ?? "help";
 const options = parseOptions(process.argv.slice(3));
 const skillDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const defaultBridgeDir = resolve(skillDir, "vendor", "codex-wechat-bridge");
 
 if (command === "help" || command === "--help" || command === "-h") {
   printHelp();
@@ -24,6 +22,7 @@ if (command === "detect") {
   console.log(JSON.stringify({
     skillDir,
     bridgeDir,
+    bridgeSource: options.bridgeDir ? "external" : "bundled",
     bridgeExists: existsSync(resolve(bridgeDir, "package.json")),
     dataDir: options.dataDir ?? resolve(homedir(), ".codex-wechat-bridge")
   }, null, 2));
@@ -33,6 +32,7 @@ if (command === "detect") {
 await ensureBridge();
 
 if (command === "status") {
+  await prepareBridge();
   run("node", ["dist/cli.js", "status", "--cwd", workspace, ...dataDirArgs()], { cwd: bridgeDir });
 } else if (command === "setup") {
   await prepareBridge();
@@ -62,8 +62,7 @@ if (command === "status") {
 
 async function ensureBridge() {
   if (existsSync(resolve(bridgeDir, "package.json"))) return;
-  await mkdir(dirname(bridgeDir), { recursive: true });
-  run("git", ["clone", bridgeRepo, bridgeDir]);
+  throw new Error(`Missing bundled bridge project: ${bridgeDir}`);
 }
 
 async function prepareBridge() {
@@ -147,7 +146,7 @@ Usage:
   node scripts/by-my-side.mjs install-service --workspace <path> [--dry-run]
 
 Options:
-  --bridge-dir <path>  Existing or target codex-wechat-bridge checkout
+  --bridge-dir <path>  Optional external codex-wechat-bridge checkout
   --data-dir <path>    Bridge runtime data directory
   --dry-run            Preview service installation command
 `);

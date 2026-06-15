@@ -5,14 +5,14 @@ description: Use when a user asks to create, install, start, repair, or verify a
 
 # By My Side
 
-By My Side connects personal WeChat messages to local Codex through `codex-wechat-bridge`. The skill should get the user to the QR-code login step, teach them how to scan, install a persistent service, and verify the bridge without copying any private runtime state.
+By My Side connects personal WeChat messages to local Codex through the bundled `codex-wechat-bridge` source under `vendor/codex-wechat-bridge`. The skill should get the user to the QR-code login step, teach them how to scan, install a persistent service, and verify the bridge without copying any private runtime state.
 
 ## Hard Boundaries
 
 - Never copy, print, upload, or commit `account.json`, `context_tokens.json`, `sync_cursor.json`, logs, or downloaded assets.
 - Never claim login is complete until `codex-wechat-bridge status` reports `hasWechatToken: true`.
 - WeChat authorization requires the user to scan and confirm. Do not imply the skill can bypass that.
-- Use the bridge project's own CLI and service script. Do not hand-roll LaunchAgent or Task Scheduler files in the skill.
+- Use the bundled bridge project's own CLI and service script. Do not hand-roll LaunchAgent or Task Scheduler files in the skill.
 - If iLink token setup fails, say so plainly. There is no enterprise WeChat fallback in this bridge.
 
 ## Quick Path
@@ -27,7 +27,7 @@ Use the current working directory as `--workspace` only when the user did not na
 
 The command:
 
-1. Locates or clones `Stormycry-cryp/codexapp-wechat-bridge`.
+1. Uses the bundled `vendor/codex-wechat-bridge` project unless `--bridge-dir` explicitly points to an external checkout.
 2. Runs `npm install` when `node_modules/` is missing.
 3. Runs `npm run build`.
 4. Checks bridge status.
