@@ -198,6 +198,12 @@ node <by-my-side-skill-folder>/scripts/by-my-side.mjs connect \
 
 ---
 
+## 致谢
+
+By My Side 内置的桥接项目基于 Node.js、TypeScript、Vitest、tsx 等开源方案构建，并遵循 Agent Skills 的 `SKILL.md` 结构。完整说明见 [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)。
+
+---
+
 ## 限制
 
 - 只支持个人微信 iLink，不支持企业微信。
