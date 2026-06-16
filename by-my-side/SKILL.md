@@ -99,3 +99,7 @@ For a real local install on macOS, `node scripts/service.mjs status` should show
 ## References
 
 - `references/scan-guide.md`: user-facing scan and first-message guidance.
+
+## Acknowledgements
+
+By My Side was inspired by [cc-connect](https://github.com/chenhg5/cc-connect), an open source bridge that makes local AI coding agents reachable from everyday messaging platforms. This Skill narrows that idea to Codex Desktop and personal WeChat setup.
