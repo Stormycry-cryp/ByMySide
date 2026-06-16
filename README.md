@@ -200,7 +200,7 @@ node <by-my-side-skill-folder>/scripts/by-my-side.mjs connect \
 
 ## 致谢
 
-By My Side 内置的桥接项目基于 Node.js、TypeScript、Vitest、tsx 等开源方案构建，并遵循 Agent Skills 的 `SKILL.md` 结构。完整说明见 [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)。
+By My Side 的思路受 [cc-connect](https://github.com/chenhg5/cc-connect) 启发：让本地 AI coding agent 能从日常聊天入口被触达。本项目在这个方向上收窄到 Codex Desktop 和个人微信扫码连接。完整说明见 [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)。
 
 ---
 

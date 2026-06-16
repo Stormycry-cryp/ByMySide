@@ -4,6 +4,7 @@ By My Side ships a bundled `codex-wechat-bridge` project and uses several open s
 
 ## Open Source Projects
 
+- [cc-connect](https://github.com/chenhg5/cc-connect) — an open source bridge for connecting local AI coding agents to messaging platforms. By My Side was inspired by its idea of making local coding agents reachable from everyday chat tools, while focusing this Skill on Codex Desktop and personal WeChat setup.
 - [Node.js](https://nodejs.org/) — JavaScript runtime used by the bundled bridge and skill helper scripts.
 - [TypeScript](https://www.typescriptlang.org/) — typed implementation language for `codex-wechat-bridge`.
 - [Vitest](https://vitest.dev/) — test runner for the bridge test suite.
